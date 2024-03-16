@@ -15,11 +15,11 @@ def get_text(url):
     req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
     html_page = urlopen(req).read()
     soup = BeautifulSoup(html_page, 'html.parser')
-    return soup.get_text(separator='\r', strip=True)
+    return soup.find('body').get_text(separator='\r', strip=True)
 
 def scrape(url, current_depth, maximum_depth, link_index=0):
 
-    print(f"[{current_depth}][{link_index}]")
+    print(f"[{current_depth}][{link_index}] - {url}")
     f = open(f"files/[{current_depth}][{link_index}].txt", "w", encoding="utf-8")
     text = get_text(url)
     f.write(text)
@@ -33,4 +33,4 @@ def scrape(url, current_depth, maximum_depth, link_index=0):
         scrape(link, current_depth + 1, maximum_depth, link_index)
 
 
-scrape('https://stackoverflow.com/questions/53911695/scrape-urls-using-beautifulsoup-in-python-3', 0, 1)
+scrape('https://binnova.it/', 0, 1)
